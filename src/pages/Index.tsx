@@ -15,6 +15,9 @@ export default function Index() {
     birthdate: '',
     message: ''
   });
+  const [calcBirthdate, setCalcBirthdate] = useState('');
+  const [matrixResult, setMatrixResult] = useState<any>(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -27,6 +30,57 @@ export default function Index() {
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const calculateMatrix = (date: string) => {
+    if (!date) return;
+    
+    const [year, month, day] = date.split('-').map(Number);
+    const digits = [day, month, year].join('').split('').map(Number);
+    const sum = digits.reduce((a, b) => a + b, 0);
+    const destinyNumber = sum > 22 ? sum.toString().split('').map(Number).reduce((a, b) => a + b, 0) : sum;
+    
+    const personalNumber = (day + month) % 22 || 22;
+    const soulNumber = digits.slice(0, 2).reduce((a, b) => a + b, 0) % 22 || 22;
+    const karmaNumber = year.toString().split('').map(Number).reduce((a, b) => a + b, 0) % 22 || 22;
+    
+    setMatrixResult({
+      destinyNumber,
+      personalNumber,
+      soulNumber,
+      karmaNumber,
+      date: new Date(date).toLocaleDateString('ru-RU')
+    });
+  };
+
+  const handleCalculate = (e: React.FormEvent) => {
+    e.preventDefault();
+    calculateMatrix(calcBirthdate);
+  };
+
+  const arcanaDescriptions: Record<number, { title: string; shortDesc: string }> = {
+    1: { title: 'Маг', shortDesc: 'Энергия начинаний, воля и творчество' },
+    2: { title: 'Жрица', shortDesc: 'Интуиция, тайные знания, мудрость' },
+    3: { title: 'Императрица', shortDesc: 'Материнство, изобилие, красота' },
+    4: { title: 'Император', shortDesc: 'Власть, структура, стабильность' },
+    5: { title: 'Иерофант', shortDesc: 'Традиции, обучение, духовность' },
+    6: { title: 'Влюблённые', shortDesc: 'Выбор, гармония, отношения' },
+    7: { title: 'Колесница', shortDesc: 'Движение, победа, целеустремлённость' },
+    8: { title: 'Справедливость', shortDesc: 'Баланс, закон, честность' },
+    9: { title: 'Отшельник', shortDesc: 'Поиск истины, одиночество, мудрость' },
+    10: { title: 'Колесо Фортуны', shortDesc: 'Судьба, циклы, перемены' },
+    11: { title: 'Сила', shortDesc: 'Внутренняя сила, смелость, терпение' },
+    12: { title: 'Повешенный', shortDesc: 'Жертва, новый взгляд, остановка' },
+    13: { title: 'Смерть', shortDesc: 'Трансформация, завершение, обновление' },
+    14: { title: 'Умеренность', shortDesc: 'Гармония, равновесие, исцеление' },
+    15: { title: 'Дьявол', shortDesc: 'Зависимости, материальное, искушения' },
+    16: { title: 'Башня', shortDesc: 'Разрушение, освобождение, прозрение' },
+    17: { title: 'Звезда', shortDesc: 'Надежда, вдохновение, духовность' },
+    18: { title: 'Луна', shortDesc: 'Подсознание, иллюзии, интуиция' },
+    19: { title: 'Солнце', shortDesc: 'Радость, успех, ясность' },
+    20: { title: 'Суд', shortDesc: 'Возрождение, прощение, призвание' },
+    21: { title: 'Мир', shortDesc: 'Завершённость, гармония, успех' },
+    22: { title: 'Шут', shortDesc: 'Спонтанность, начало, свобода' },
   };
 
   return (
@@ -46,6 +100,9 @@ export default function Index() {
               </button>
               <button onClick={() => scrollToSection('services')} className="text-foreground/80 hover:text-primary transition-colors">
                 Услуги
+              </button>
+              <button onClick={() => scrollToSection('calculator')} className="text-foreground/80 hover:text-primary transition-colors">
+                Калькулятор
               </button>
               <button onClick={() => scrollToSection('order')} className="text-foreground/80 hover:text-primary transition-colors">
                 Заказать
@@ -75,9 +132,9 @@ export default function Index() {
                 Узнайте о своём предназначении, талантах и жизненном пути через древнюю систему нумерологии
               </p>
               <div className="flex gap-4">
-                <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90" onClick={() => scrollToSection('order')}>
+                <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90" onClick={() => scrollToSection('calculator')}>
                   <Icon name="Sparkles" className="mr-2" size={20} />
-                  Узнать свою судьбу
+                  Рассчитать матрицу
                 </Button>
                 <Button size="lg" variant="outline" onClick={() => scrollToSection('about')}>
                   Подробнее
@@ -161,6 +218,125 @@ export default function Index() {
                   </ul>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="calculator" className="py-24 bg-gradient-to-b from-background to-card/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center space-y-4 mb-12 animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold">Калькулятор Матрицы Судьбы</h2>
+              <p className="text-xl text-foreground/80">
+                Получите базовый расчёт бесплатно прямо сейчас
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="bg-card/80 backdrop-blur border-border/50">
+                <CardHeader>
+                  <CardTitle className="text-2xl">Введите дату рождения</CardTitle>
+                  <CardDescription>Узнайте ключевые числа вашей матрицы</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleCalculate} className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="calc-birthdate" className="text-lg">Дата рождения</Label>
+                      <Input 
+                        id="calc-birthdate" 
+                        type="date" 
+                        value={calcBirthdate}
+                        onChange={(e) => setCalcBirthdate(e.target.value)}
+                        required
+                        className="text-lg p-6"
+                      />
+                    </div>
+                    <Button type="submit" className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90" size="lg">
+                      <Icon name="Calculator" className="mr-2" size={20} />
+                      Рассчитать матрицу
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+
+              {!matrixResult ? (
+                <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 backdrop-blur border-primary/30 flex items-center justify-center">
+                  <CardContent className="text-center py-12">
+                    <Icon name="Sparkles" className="mx-auto mb-4 text-primary" size={64} />
+                    <p className="text-lg text-foreground/70">
+                      Введите дату рождения, чтобы увидеть расчёт
+                    </p>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card className="bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur border-primary">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">Ваши ключевые числа</CardTitle>
+                    <CardDescription>Дата рождения: {matrixResult.date}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-background/50 p-4 rounded-lg text-center">
+                        <div className="text-4xl font-bold text-primary mb-2">{matrixResult.destinyNumber}</div>
+                        <div className="text-sm font-semibold mb-1">{arcanaDescriptions[matrixResult.destinyNumber]?.title}</div>
+                        <div className="text-xs text-foreground/60">Число судьбы</div>
+                      </div>
+                      <div className="bg-background/50 p-4 rounded-lg text-center">
+                        <div className="text-4xl font-bold text-secondary mb-2">{matrixResult.personalNumber}</div>
+                        <div className="text-sm font-semibold mb-1">{arcanaDescriptions[matrixResult.personalNumber]?.title}</div>
+                        <div className="text-xs text-foreground/60">Личное число</div>
+                      </div>
+                      <div className="bg-background/50 p-4 rounded-lg text-center">
+                        <div className="text-4xl font-bold text-primary mb-2">{matrixResult.soulNumber}</div>
+                        <div className="text-sm font-semibold mb-1">{arcanaDescriptions[matrixResult.soulNumber]?.title}</div>
+                        <div className="text-xs text-foreground/60">Число души</div>
+                      </div>
+                      <div className="bg-background/50 p-4 rounded-lg text-center">
+                        <div className="text-4xl font-bold text-secondary mb-2">{matrixResult.karmaNumber}</div>
+                        <div className="text-sm font-semibold mb-1">{arcanaDescriptions[matrixResult.karmaNumber]?.title}</div>
+                        <div className="text-xs text-foreground/60">Кармическое число</div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-background/30 p-4 rounded-lg space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Icon name="Info" className="text-primary mt-1" size={18} />
+                        <p className="text-sm text-foreground/80">
+                          Это базовый расчёт показывает ключевые энергии вашей матрицы
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-primary/20 to-secondary/20 p-6 rounded-lg border border-primary/30">
+                      <div className="flex items-start gap-3 mb-4">
+                        <Icon name="Lock" className="text-primary" size={24} />
+                        <div>
+                          <h4 className="font-bold text-lg mb-1">Хотите узнать больше?</h4>
+                          <p className="text-sm text-foreground/70 mb-3">
+                            Полный разбор раскроет:
+                          </p>
+                          <ul className="text-sm space-y-1 text-foreground/80">
+                            <li>✨ Детальное описание каждого числа</li>
+                            <li>✨ Ваши таланты и предназначение</li>
+                            <li>✨ Рекомендации по развитию</li>
+                            <li>✨ Кармические задачи и пути решения</li>
+                            <li>✨ Финансовый и любовный потенциал</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <Button 
+                        className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90" 
+                        size="lg"
+                        onClick={() => scrollToSection('order')}
+                      >
+                        <Icon name="Crown" className="mr-2" size={20} />
+                        Заказать полный разбор
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
         </div>

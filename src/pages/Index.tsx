@@ -18,14 +18,37 @@ export default function Index() {
   const [calcBirthdate, setCalcBirthdate] = useState('');
   const [matrixResult, setMatrixResult] = useState<any>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [selectedService, setSelectedService] = useState<{name: string, price: number} | null>(null);
   const { toast } = useToast();
+
+  const services = [
+    { id: 'basic', name: 'Базовый расчёт', price: 2500 },
+    { id: 'full', name: 'Разбор всех сфер', price: 8888 },
+    { id: 'child', name: 'Детская матрица', price: 3333 },
+    { id: 'compatibility', name: 'Совместимость', price: 4444 }
+  ];
+
+  const handlePayment = (serviceName: string, price: number) => {
+    scrollToSection('order');
+    setSelectedService({ name: serviceName, price });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const serviceName = selectedService?.name || 'Консультация';
+    const amount = selectedService?.price || 0;
+    
+    const paymentUrl = `https://www.tinkoff.ru/rm/nikitin.yuriy47/VHOhZ12345?sum=${amount}`;
+    
     toast({
-      title: "Заявка отправлена!",
-      description: "Мы свяжемся с вами в ближайшее время.",
+      title: "Переход к оплате",
+      description: `Вы будете перенаправлены на страницу оплаты через СБП`,
     });
+    
+    setTimeout(() => {
+      window.open(paymentUrl, '_blank');
+    }, 1000);
   };
 
   const scrollToSection = (id: string) => {
@@ -376,6 +399,14 @@ export default function Index() {
                     <span>Рекомендации по развитию</span>
                   </li>
                 </ul>
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90 mt-4" 
+                  size="lg"
+                  onClick={() => handlePayment('Базовый расчёт', 2500)}
+                >
+                  <Icon name="ShoppingCart" className="mr-2" size={18} />
+                  Заказать
+                </Button>
               </CardContent>
             </Card>
 
@@ -418,6 +449,14 @@ export default function Index() {
                     <span>Кармические задачи</span>
                   </li>
                 </ul>
+                <Button 
+                  className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90" 
+                  size="lg"
+                  onClick={() => handlePayment('Разбор всех сфер', 8888)}
+                >
+                  <Icon name="ShoppingCart" className="mr-2" size={18} />
+                  Заказать
+                </Button>
               </CardContent>
             </Card>
 
@@ -453,6 +492,14 @@ export default function Index() {
                     <span>Советы по воспитанию</span>
                   </li>
                 </ul>
+                <Button 
+                  className="w-full bg-accent hover:bg-accent/90" 
+                  size="lg"
+                  onClick={() => handlePayment('Детская матрица', 3333)}
+                >
+                  <Icon name="ShoppingCart" className="mr-2" size={18} />
+                  Заказать
+                </Button>
               </CardContent>
             </Card>
 
@@ -488,6 +535,14 @@ export default function Index() {
                     <span>Рекомендации для гармонии</span>
                   </li>
                 </ul>
+                <Button 
+                  className="w-full bg-secondary hover:bg-secondary/90" 
+                  size="lg"
+                  onClick={() => handlePayment('Совместимость', 4444)}
+                >
+                  <Icon name="ShoppingCart" className="mr-2" size={18} />
+                  Заказать
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -504,8 +559,15 @@ export default function Index() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center space-y-4 mb-12 animate-fade-in">
               <h2 className="text-4xl md:text-5xl font-bold">Заказать консультацию</h2>
+              {selectedService && (
+                <div className="inline-block bg-gradient-to-r from-primary/20 to-secondary/20 px-6 py-3 rounded-full border border-primary/30">
+                  <p className="text-lg font-semibold">
+                    Выбрана услуга: <span className="text-primary">{selectedService.name}</span> — <span className="text-secondary">{selectedService.price.toLocaleString('ru-RU')} ₽</span>
+                  </p>
+                </div>
+              )}
               <p className="text-xl text-foreground/80">
-                Заполните форму, и мы свяжемся с вами для уточнения деталей
+                Заполните форму для перехода к оплате через СБП
               </p>
             </div>
 
@@ -570,8 +632,8 @@ export default function Index() {
                       />
                     </div>
                     <Button type="submit" className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90" size="lg">
-                      <Icon name="CreditCard" className="mr-2" size={20} />
-                      Перейти к оплате
+                      <Icon name="Smartphone" className="mr-2" size={20} />
+                      Оплатить через СБП
                     </Button>
                   </form>
                 </CardContent>
@@ -584,13 +646,22 @@ export default function Index() {
                   className="w-full rounded-2xl shadow-2xl"
                 />
                 <Card className="bg-primary/10 border-primary/30">
-                  <CardContent className="pt-6">
+                  <CardContent className="pt-6 space-y-4">
+                    <div className="flex gap-4">
+                      <Icon name="Smartphone" className="text-primary" size={24} />
+                      <div>
+                        <h4 className="font-semibold mb-1">Оплата через СБП</h4>
+                        <p className="text-sm text-foreground/70">
+                          Мгновенный перевод через Систему Быстрых Платежей от любого банка
+                        </p>
+                      </div>
+                    </div>
                     <div className="flex gap-4">
                       <Icon name="Shield" className="text-primary" size={24} />
                       <div>
-                        <h4 className="font-semibold mb-1">Безопасная оплата</h4>
+                        <h4 className="font-semibold mb-1">Безопасно</h4>
                         <p className="text-sm text-foreground/70">
-                          После отправки формы вы получите ссылку на защищённую страницу оплаты
+                          Защищённая платёжная система с подтверждением в вашем банке
                         </p>
                       </div>
                     </div>

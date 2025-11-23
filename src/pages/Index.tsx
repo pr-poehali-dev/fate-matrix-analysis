@@ -347,11 +347,11 @@ export default function Index() {
           <div className="text-center space-y-4 mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold">Наши услуги</h2>
             <p className="text-xl text-foreground/80">
-              Выберите формат консультации, который подходит именно вам
+              Все консультации проводятся онлайн в удобное для вас время
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             <Card className="bg-card/80 backdrop-blur border-border/50 hover:border-primary transition-all hover:scale-105 duration-300">
               <CardHeader>
                 <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-4">
@@ -385,29 +385,72 @@ export default function Index() {
               </div>
               <CardHeader>
                 <div className="w-16 h-16 rounded-full bg-primary/30 flex items-center justify-center mb-4">
-                  <Icon name="Video" className="text-primary" size={32} />
+                  <Icon name="Layers" className="text-primary" size={32} />
                 </div>
-                <CardTitle className="text-2xl">Личная консультация</CardTitle>
-                <CardDescription className="text-lg">Онлайн-встреча 90 минут</CardDescription>
+                <CardTitle className="text-2xl">Разбор всех сфер</CardTitle>
+                <CardDescription className="text-lg">Полный анализ матрицы онлайн</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-3xl font-bold text-primary">5 000 ₽</div>
+                <div className="text-3xl font-bold text-primary">8 888 ₽</div>
                 <ul className="space-y-2 text-foreground/80">
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-primary mt-1" size={16} />
-                    <span>Всё из базового расчёта</span>
+                    <span>Детальный разбор личности</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-primary mt-1" size={16} />
-                    <span>Разбор личных вопросов</span>
+                    <span>Финансы и карьера</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-primary mt-1" size={16} />
-                    <span>Запись встречи</span>
+                    <span>Любовь и отношения</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-primary mt-1" size={16} />
-                    <span>Индивидуальные практики</span>
+                    <span>Здоровье и энергия</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-primary mt-1" size={16} />
+                    <span>Предназначение и таланты</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-primary mt-1" size={16} />
+                    <span>Кармические задачи</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card/80 backdrop-blur border-border/50 hover:border-accent transition-all hover:scale-105 duration-300">
+              <CardHeader>
+                <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mb-4">
+                  <Icon name="Baby" className="text-accent" size={32} />
+                </div>
+                <CardTitle className="text-2xl">Детская матрица</CardTitle>
+                <CardDescription className="text-lg">Раскройте потенциал ребёнка</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-3xl font-bold text-accent">3 333 ₽</div>
+                <ul className="space-y-2 text-foreground/80">
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-accent mt-1" size={16} />
+                    <span>Врождённые таланты и способности</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-accent mt-1" size={16} />
+                    <span>Как раскрыть потенциал ребёнка</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-accent mt-1" size={16} />
+                    <span>Подходящие направления развития</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-accent mt-1" size={16} />
+                    <span>Особенности характера и поведения</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-accent mt-1" size={16} />
+                    <span>Советы по воспитанию</span>
                   </li>
                 </ul>
               </CardContent>
@@ -419,10 +462,10 @@ export default function Index() {
                   <Icon name="Users" className="text-secondary" size={32} />
                 </div>
                 <CardTitle className="text-2xl">Совместимость</CardTitle>
-                <CardDescription className="text-lg">Анализ отношений</CardDescription>
+                <CardDescription className="text-lg">Онлайн-анализ отношений</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-3xl font-bold text-secondary">7 500 ₽</div>
+                <div className="text-3xl font-bold text-secondary">4 444 ₽</div>
                 <ul className="space-y-2 text-foreground/80">
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-secondary mt-1" size={16} />
@@ -430,15 +473,19 @@ export default function Index() {
                   </li>
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-secondary mt-1" size={16} />
-                    <span>Анализ совместимости</span>
+                    <span>Глубокий анализ совместимости</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-secondary mt-1" size={16} />
-                    <span>Рекомендации для пары</span>
+                    <span>Сильные стороны отношений</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Icon name="Check" className="text-secondary mt-1" size={16} />
-                    <span>Консультация 60 минут</span>
+                    <span>Точки роста и проработки</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="Check" className="text-secondary mt-1" size={16} />
+                    <span>Рекомендации для гармонии</span>
                   </li>
                 </ul>
               </CardContent>
